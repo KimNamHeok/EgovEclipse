@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ProdMapper">
+	<resultMap type="ProdVO" id="prodMap" autoMapping="true">
+		<association property="lprod" javaType="LprodVO" autoMapping="true" />
+		<association property="buyer" javaType="BuyerVO" autoMapping="true"/>
+
+	</resultMap>
+	<select id="selectProdList" resultMap="prodMap">
+		SELECT
+			PROD_ID
+			, PROD_NAME
+			, BUYER_ID
+			, LPROD_GU
+			, PROD_PRICE
+			, PROD_COST
+			, PROD_OUTLINE
+			, LPROD_NAME
+			, BUYER_NAME
+			, BUYER_ADD1
+		FROM PROD NATURAL JOIN LPROD
+				  NATURAL JOIN BUYER
+	</select>
+		<select id="selectProdListForMap" resultType="hashMap">
+		SELECT
+			PROD_ID
+			, PROD_NAME
+			, BUYER_ID
+			, LPROD_GU
+			, PROD_PRICE
+			, PROD_COST
+			, PROD_OUTLINE
+			, LPROD_NAME
+			, BUYER_NAME
+			, BUYER_ADD1 
+		FROM PROD NATURAL JOIN LPROD
+				  NATURAL JOIN BUYER
+	</select>
+	<select id="selectProd" resultMap="prodMap">
+		SELECT
+		    PROD_ID,
+		    PROD_NAME,
+		    LPROD_GU,
+		    BUYER_ID,
+		    PROD_COST,
+		    PROD_PRICE,
+		    PROD_SALE,
+		    PROD_OUTLINE,
+		    PROD_DETAIL,
+		    PROD_IMG,
+		    PROD_TOTALSTOCK,
+		    PROD_INSDATE,
+		    PROD_PROPERSTOCK,
+		    PROD_SIZE,
+		    PROD_COLOR,
+		    PROD_DELIVERY,
+		    PROD_UNIT,
+		    PROD_QTYIN,
+		    PROD_QTYSALE,
+		    PROD_MILEAGE
+		    , LPROD_NAME
+		    , BUYER_NAME
+		    , BUYER_ADD1
+		    , BUYER_COMTEL
+		    , BUYER_CHARGER
+		FROM   PROD NATURAL JOIN LPROD
+					NATURAL JOIN BUYER
+		WHERE PROD_ID = #{prodId}
+	</select>
+<!-- 	데이터 매퍼 ? 데이터의 타입 변환을 담당함. -->
+<!-- 	null 데이터 변환 규칙성을 정의하기 위해, inline attribute 를 사용함. -->
+	<insert id="insertProd">
+		<selectKey order="BEFORE" resultType="string" keyProperty="prodId">
+			SELECT
+				#{lprodGu} ||
+				LPAD(NVL(to_number(SUBSTR(MAX(Prod_ID), LENGTH( #{lprodGu})+1)), 0)+ 1, 6, '0')
+			FROM BUYER
+			WHERE LPROD_GU = #{lprodGu}
+		</selectKey>
+		INSERT INTO PROD (
+		    PROD_ID,
+		    PROD_NAME,
+		    LPROD_GU,
+		    BUYER_ID,
+		    PROD_COST,
+		    PROD_PRICE,
+		    PROD_SALE,
+		    PROD_OUTLINE,
+		    PROD_DETAIL,
+		    PROD_IMG,
+		    PROD_TOTALSTOCK,
+		    PROD_INSDATE,
+		    PROD_PROPERSTOCK,
+		    PROD_SIZE,
+		    PROD_COLOR,
+		    PROD_DELIVERY,
+		    PROD_UNIT,
+		    PROD_QTYIN,
+		    PROD_QTYSALE,
+		    PROD_MILEAGE
+		) VALUES (
+		    #{prodId},
+			#{prodName},
+			#{lprodGu},
+			#{buyerId},
+			#{prodCost},
+			#{prodPrice,jdbcType=NUMERIC},
+			#{prodSale,jdbcType=NUMERIC},
+			#{prodOutline},
+			#{prodDetail,jdbcType=CLOB},
+			#{prodImg,jdbcType=VARCHAR},
+			#{prodTotalstock,jdbcType=NUMERIC},
+			SYSDATE,
+			#{prodProperstock,jdbcType=NUMERIC},
+			#{prodSize,jdbcType=VARCHAR},
+			#{prodColor,jdbcType=VARCHAR},
+			#{prodDelivery,jdbcType=VARCHAR},
+			#{prodUnit,jdbcType=VARCHAR},
+			#{prodQtyin,jdbcType=NUMERIC},
+			#{prodQtysale,jdbcType=NUMERIC},
+			#{prodMileage,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<update id="updateProd">
+		UPDATE PROD
+		SET
+			PROD_COST= #{prodCost},
+			PROD_PRICE= #{prodPrice},
+			PROD_SALE= #{prodSale},
+			PROD_OUTLINE= #{prodOutline},
+			PROD_DETAIL= #{prodDetail},
+			PROD_IMG= #{prodImg},
+			PROD_TOTALSTOCK= #{prodTotalstock},
+			PROD_PROPERSTOCK= #{prodProperstock},
+			PROD_SIZE= #{prodSize},
+			PROD_COLOR= #{prodColor},
+			PROD_DELIVERY= #{prodDelivery},
+			PROD_UNIT= #{prodUnit},
+			PROD_QTYIN= #{prodQtyin},
+			PROD_QTYSALE= #{prodQtysale},
+			PROD_MILEAGE= #{prodMileage}
+		WHERE PROD_ID = #{prodId}
+		
+	</update>
+<!-- 			PROD_INSDATE= #{prodInsdate}, -->
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
