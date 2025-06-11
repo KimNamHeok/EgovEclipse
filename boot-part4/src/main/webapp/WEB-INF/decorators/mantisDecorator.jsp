@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>    
 <!DOCTYPE html>
 <html>
 <!-- [Head] start -->
 
 <head>
-  <title>Home | <sitemesh:write property="title" /></title>
+  <title>Home | <sitemesh:write property="title"/></title>
   <!-- [Meta] -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -17,7 +18,7 @@
  <%@include file="/WEB-INF/fragments/mantisPreStyle.jsp" %>
 
 	<sitemesh:write property="head"/>
-
+	
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -31,14 +32,14 @@
 </div>
 <!-- [ Pre-loader ] End -->
  <!-- [ Sidebar Menu ] start -->
-
+ 
  <%@ include file="/WEB-INF/fragments/mantisSidebar.jsp" %>
 
 <!-- [ Sidebar Menu ] end --> 
 <!-- [ Header Topbar ] start -->
+	
+  <%@ include file="/WEB-INF/fragments/mantisHeader.jsp" %>	
 
- <%@ include file="/WEB-INF/fragments/mantisHeader.jsp" %>
- 
 <!-- [ Header ] end -->
 
 
@@ -46,17 +47,18 @@
   <!-- [ Main Content ] start -->
   <div class="pc-container">
     <div class="pc-content">
+    
       <sitemesh:write property="body"/>
+      
     </div>
   </div>
+  
   <!-- [ Main Content ] end -->
   <footer class="pc-footer">
     <%@ include file="/WEB-INF/fragments/mantisFooter.jsp" %>
   </footer>
 
-	<%@include file="/WEB-INF/fragments/mantisPostScript.jsp" %>
-  
-    
+    <%@ include file="/WEB-INF/fragments/mantisPostScript.jsp" %>
 
 </body>
 <!-- [Body] end -->

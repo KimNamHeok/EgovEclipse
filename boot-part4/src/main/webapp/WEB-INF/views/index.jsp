@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>logical view name : index 로 만든 웰컴 페이지</h1>
+<h1>logical view name : index 로 만든 웰컴페이지</h1>
+${pageContext.request.userPrincipal.realUser }
 </body>
 </html>
